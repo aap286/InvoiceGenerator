@@ -12,6 +12,7 @@ import smtplib
 import pdfkit
 import math
 import ssl
+import pythoncom
 
 
 # suppresses warnings 
@@ -121,7 +122,7 @@ def create_app():
                     path = os.path.join(desktop, 'Invoices.lnk'.format(os.getcwd()))
                     target = '{}\\0_Invoices'.format(os.getcwd())
                     icon = '{}\\style\\icon\\invoice.ico'.format(os.getcwd())
-                    shell = win32com.client.Dispatch("WScript.Shell")
+                    shell = win32com.client.Dispatch("WScript.Shell", pythoncom.CoInitialize())
                     shortcut = shell.CreateShortCut(path)
                     shortcut.Targetpath = target
                     shortcut.IconLocation = icon
@@ -165,7 +166,7 @@ def create_app():
                     S.NO                          1
                     B.NO                         A1
                     Flat No.                    101
-                    Area, Sq.fit               2207
+                    Area, Sq.ft               2207
                     Actual Corpus Deposit    242770
                     """
                     
@@ -198,7 +199,7 @@ def create_app():
 
                     # Section A
                     # maintenance @ 1.80/sqft/mth
-                    item[1] = round(config[0] * 12 * userOne["Area, Sq.fit"], 2)
+                    item[1] = round(config[0] * 12 * userOne["Area, Sq.ft"], 2)
 
                     # Interest credit
                     item[2] = round(config[1] * userOne["Actual Corpus Deposit"] / 100 ,2)
@@ -210,7 +211,7 @@ def create_app():
                     item[4] = round(item[1] - item[2] + item[3], 2)
 
                     # Reserve Fund
-                    item[5] = round(config[2] * 12 * userOne["Area, Sq.fit"], 2)
+                    item[5] = round(config[2] * 12 * userOne["Area, Sq.ft"], 2)
 
                     # Non-Occupancy Charges
                     try:
@@ -329,15 +330,15 @@ def create_app():
                     # row = np.concatenate((userOne[1:11], item))
                     # df = df.append(pd.Series(row, index=df.columns[:len(row)]), ignore_index=True)
                                         
-                    # email Object
-                    msg = EmailMessage()
-                    msg['From'] = config[17]
-                    msg['To'] = userOne[12]
-                    msg['Subject'] = subject
+                    # # email Object
+                    # msg = EmailMessage()
+                    # msg['From'] = config[17]
+                    # msg['To'] = userOne[12]
+                    # msg['Subject'] = subject
                     
-                    # forming body of the email
-                    salution = "Dear {},\n".format(name)
-                    msg.set_content(salution + body)
+                    # # forming body of the email
+                    # salution = "Dear {},\n".format(name)
+                    # msg.set_content(salution + body)
                     
                     
                     # user has email

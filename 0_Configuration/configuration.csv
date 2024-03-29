@@ -1,14 +1,14 @@
-﻿Maintenance Rate,1.8
-Weighted Interest,0.42
-Reserve Fund,200
-Recovery Interest rate,2.77
-Non occupancy charges,4
-Payment Discount,3
+﻿Maintenance Rate,2.1
+Weighted Interest,6.5
+Reserve Fund,0.169
+Recovery Interest rate,0.25
+Non occupancy charges,20
+Payment Discount,2.5
 Payment Discount Period,30
-Delayed Payment charges,20
+Delayed Payment charges,18
 CGST Rate,9
 SGST Rate,9
-Delayed Payment charges Interest,2.5
+Delayed Payment charges Interest,18
 NA Tax arrears,y
 Deemed Conveyance arrears,Y
 Painting Project arrears,n

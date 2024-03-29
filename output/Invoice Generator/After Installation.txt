@@ -1,3 +1,0 @@
-Before running the execution file make sure suitable 
-configration file has been copided.
-This includes the correct column names and order of the columns.

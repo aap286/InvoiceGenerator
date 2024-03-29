@@ -36,10 +36,12 @@ def dataTypeCor(df, st, fin, dataType):
 # formats to currency
 def money(num):
     for i in range(len(num)):
-        if num[i] == 0:
-            num[i] = "-"
-        else: 
-            num[i] = "{:,.2f}".format(num[i])
+        if num[i] != '-':
+             num[i] = "{:,.2f}".format(num[i])
+        # if num[i] == 0:
+        #     num[i] = "-"
+        # else: 
+        #     num[i] = "{:,.2f}".format(num[i])
         
 # change date format dd/mm/yyyy
 def dateFormat(dates):
@@ -63,7 +65,7 @@ def getInterest(item, currentDate, schpay, interest, dates):
             dates[i] = geom(currentDate)
             dffDays =  int(dates[0].strftime('%d')) - int(currentDate.strftime('%d') )
             prevDiff = dffDays
-            item[20 + i] = round(schpay + schpay*prevDiff*interest/100,2)
+            item[23 + i] = round(schpay + schpay*prevDiff*interest/100,2)
         
         else:
             dates[i] = geom(dates[i-1] + timedelta(days=1))
@@ -71,7 +73,7 @@ def getInterest(item, currentDate, schpay, interest, dates):
             d2 = datetime.strptime(str(dates[i-1]), "%Y-%m-%d")
             dffDays = (d1 - d2).days
             prevDiff = dffDays + prevDiff
-            item[20 + i] = round(schpay + schpay*prevDiff*interest/100, 2)
+            item[23 + i] = round(schpay + schpay*prevDiff*interest/100, 2)
             
     
 

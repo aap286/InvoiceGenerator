@@ -1,17 +1,12 @@
-from fundamentals import dataTypeCor, createFrame, allowed_file, money, getInterest, dateFormat, isValid
-from flask import Flask, request, render_template, make_response
+from fundamentals import dataTypeCor, money, getInterest, dateFormat
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from email.message import EmailMessage
 import os, win32com.client, winshell
 import pandas as pd
-import numpy as np
 import warnings
-import smtplib
-# import webview
+import webview
 import pdfkit
-import math
-import ssl
 import pythoncom
 
 
@@ -84,8 +79,8 @@ sender = config[18]
 def create_app():
 
     app = Flask(__name__, template_folder= 'style\\templates', static_folder='style') 
-    # window = webview.create_window('Invoice', app,
-    #             width=850, height=750)
+    window = webview.create_window('Invoice', app,
+                width=850, height=750)
     
     # home page
     @app.route('/', methods=['GET','POST'])
@@ -439,8 +434,8 @@ def create_app():
         return render_template('home.html')
 
     if __name__ == "__main__":
-        app.run(debug=True)
-        # webview.start()
+        # app.run(debug=True)
+        webview.start()
 
 # runs service
 create_app()

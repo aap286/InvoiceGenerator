@@ -39,6 +39,7 @@ Delayed Payment charges             float64
 CGST Rate                           float64
 SGST Rate                           float64
 Delayed Payment charges Interest    float64
+Recovery Excess Interest            string
 NA Tax arrears                       object
 Deemed Conveyance arrears            object
 Painting Project arrears             object
@@ -50,6 +51,8 @@ email Address                        object
 
 # converts vertical data frame into list which each element is a dictionary 
 configFrame = list(configFrame.to_dict().values())
+
+# print(configFrame)
 
 # empty array to store configFrame values
 config = [None]
@@ -73,7 +76,10 @@ email_password = config[17]
 
 # sender email address
 sender = config[18]
-        
+
+# row 3 is it less or add
+recoveryInterestRate = 'Add' if config[12].upper() == 'ADD' else 'Less'
+  
 
 # flask web service        
 def create_app():
@@ -97,8 +103,9 @@ def create_app():
             invoiceDate = request.form.get('invoiceDate') # invoice creation date
             year = request.form.get('year') # invoice year range
             period = request.form.get('period') # invoice period name 
-            subject = request.form['subject']
-            body = request.form['message']
+            resolutionText = request.form.get('resolutionText') # invoice resolution
+            # subject = request.form['subject']
+            # body = request.form['message']
        
             # accepts excel file
             filename = secure_filename(file.filename) # removes / from file name
@@ -151,15 +158,19 @@ def create_app():
             itemName[1] = "Maintenance @ Rs.{}/sqft/mth".format(config[1])
             itemRate[1] = str(config[1])
 
-            itemName[2] = "Less: Interest credit on Corpus @ {}% p.a.".format(config[1])
+            itemName[2] = "Less: Interest credit on Corpus @ {}% p.a.".format(config[2])
             itemRate[2] = "{}%".format(config[2])
             
-            itemName[3] = """Add: Recovery of excess interest credit @ {}% on   
-                                    corpus (in FY {}) as per 17th AGM Resolution dtd 19.12.2021""".format(config[4], year)
+            itemName[3] = """{}: Recovery of excess interest credit @ {}% on   
+                                    corpus (in FY {}) as per {}""".format(recoveryInterestRate, config[4], year, resolutionText)
             itemRate[3] = "{}%".format(config[4])
 
             itemName[4] = "Net Maintenance Payable"
-            itemRate[4] = "(1-2+3)"
+
+            if recoveryInterestRate == 'Add':
+                itemRate[4] = "(1-2+3)"
+            else:
+                itemRate[4] = "(1-2-3)"
 
             itemName[5] = "Reserve Fund @ Rs.{}/sqft/mth (excl GST)".format(config[3])
             itemRate[5] = str(config[3])
@@ -203,7 +214,7 @@ def create_app():
 
            
             # ? Iterating through each user
-            for j in range(len(apartments)):
+            for j in range(0,1):#range(len(apartments)):
                     
                     # pivoits around each user
                     userOne = apartments.loc[j] 
@@ -238,7 +249,8 @@ def create_app():
                     )
      
                     # corpus value
-                    corpus = "{:,}".format(userOne['Actual Corpus Deposit'])  
+                    corpus = "{:,}".format(userOne['Actual Corpus Deposit'])
+                    area = "{:,}".format(userOne["Area, Sq.ft"]) 
 
 
                     # Section A
@@ -252,18 +264,21 @@ def create_app():
                     item[3] = round(config[4] * userOne["Actual Corpus Deposit"] / 100, 2)
                     
                     # Net Maintenance Payable
-                    item[4] = round(item[1] - item[2] + item[3], 2)
+                    if item[3] == 'Add':
+                        item[4] = round(item[1] - item[2] + item[3], 2)
+                    else:
+                        item[4] = round(item[1] - item[2] - item[3], 2)
+
 
                     # Reserve Fund
-                    item[5] = round(config[2] * 12 * userOne["Area, Sq.ft"], 2)
+                    item[5] = round(config[3] * 12 * userOne["Area, Sq.ft"], 2)
 
                     # Non-Occupancy Charges
-                    try:
-                        status == 'Rented'
+                    if status.lower() == 'rented':
                         item[6] = round(config[5] * item[1] / 100, 2) 
-                    except:
-                        None
-
+                    else:
+                        item[6] = 0
+                
                     # CGST & SGST 
                     item[7] = round( (item[5] + item[6]) * config[9] / 100, 2)
                     item[8] = round( (item[5] + item[6]) * config[10] / 100, 2)
@@ -338,7 +353,6 @@ def create_app():
                 
                     # reformat numbers to currency
                     money(item)
-                    # money(delayedItem)
                     
                     # reformat date 
                     dateFormat(dates)
@@ -347,12 +361,19 @@ def create_app():
 
                     # indexing invoice docs
                     index = "{}/{}".format(str(101+j), year)
-    
+
+
+                    item[2] = "({})".format(item[2])
+                    item[3] = "({})".format(item[3]) if recoveryInterestRate == 'Less' else item[3]
+                    item[6] = "-" if status.lower() != 'rented' else item[6]
+
+                    
+
                     # !!!! REMOVE CONFIG, EMAIL SUBJECT & BODY
                     html = render_template('output.html',
                             year = year,period = period, 
                             index=index, invDate = invoiceDateStr, 
-                            name = name, aptNo = aptNo, status = status,
+                            name = name, aptNo = aptNo, status = status, area = area,
                             corpus = corpus, 
                             itemName = itemName, itemRate = itemRate, item = item, itemSectionNames = itemSectionNames
                             ) 
@@ -376,11 +397,11 @@ def create_app():
                                        configuration=sysmConfig, css=['style\\css\\outputstyle.css'])
                     
                     # convert int to float
-                    for t in range(len(item)):
-                        try:
-                            item[t] = float(item[t])
-                        except:
-                            None
+                    # for t in range(len(item)):
+                    #     try:
+                    #         item[t] = float(item[t])
+                    #     except:
+                    #         None
                     
                     # inserting row to summary data Frame
                     # row = np.concatenate((userOne[1:11], item))
@@ -434,8 +455,8 @@ def create_app():
         return render_template('home.html')
 
     if __name__ == "__main__":
-        # app.run(debug=True)
-        webview.start()
+        app.run(debug=True)
+        # webview.start()
 
 # runs service
 create_app()

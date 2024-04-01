@@ -9,20 +9,24 @@
 }
 
 body   {
-    width: 100%;
-    height: 100%;
-    display: block;
     background-color: #fdf5e7;
 }
 
 .form {
+    /* background-color: #7aeef9; */
     background-color: #fdf5e7;
     padding-top: 30px;
     height: 650px;
-    width: 400px;
+    width: 800px;
     border-radius:50px;
-    display: table-cell;
-    position: relative;
+    /* display: table-cell; */
+    /* position: relative; */
+}
+
+.secondRow {
+    display: flex;
+    flex-direction: col;
+    justify-content: space-around;
 }
 
 .entry  {
@@ -137,7 +141,7 @@ label   {
     cursor: pointer;
 }
 
-#invoiceDate, #period, #year    {
+#invoiceDate, #period, #year, #resolutionText    {
     border:2px solid #1d3557;
     border-radius: 5px;
     color: #d6ccc2;

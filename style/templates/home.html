@@ -12,30 +12,57 @@
             <div class="entry">
                 <h1>Invoice Generation</h1>
             </div>
-                <div class="entry">
+
+               <div class="secondRow">
+                    <div>
+                    <div class="entry">
                     <label for="Upload Excel file">Upload Excel file<label>
                 </div>
                 <div class="box">
                     <input type="file" id="Upload Excel file" name="file" class="file" accept=".xlsx" required>
                 </div>
-                <div class="entry">
+                </div>
+
+                <div>
+                    <div class="entry">
                     <label for="invoiceDate">Invoice Date</label>
+                    </div>
+                    <div class="box">
+                    <input type="date" id="invoiceDate" name="invoiceDate" placeholder="dd/mm/yyyy" required>
+                    </div>
                 </div>
-                <div class="box">
-                <input type="date" id="invoiceDate" name="invoiceDate" placeholder="dd/mm/yyyy" required>
-                </div>
+
+               </div>
                 
-                <div class="entry">
+                <div class="secondRow">
+
+                <div>
+                    <div class="entry">
                     <label for="year">Invoice year</label>
                 </div>
                 <div class="box">
                     <input type="text" id="year" name="year" placeholder="20XX-XX" required>
                 </div>
-                <div class="entry">
+                </div>
+                
+                <div>
+                    <div class="entry">
                     <label for="period">Invoice Period</label>
                 </div>
                 <div class="box">
                     <input type="text" id="period" name="period" placeholder="01 Apr'2022 to 31 Mar'2023" required>
+                </div>
+                </div>
+
+                </div>
+
+                <div>
+                    <div class="entry">
+                    <label for="resolutionText">Resolution Text</label>
+                    </div>
+                <div class="box">
+                    <input type="text" id="resolutionText" name="resolutionText" placeholder="17th AGM Resolution dated 29th Oct'2023" required>
+                </div>
                 </div>
                 
                 <div class="box">
@@ -43,7 +70,7 @@
                 </div>
         </div>
 
-        <div class="email">
+        <!-- <div class="email">
             <div class="section">
                 <div class="entry-sub">
                         <label for="subject">Email Subject</label>
@@ -60,7 +87,7 @@
                     <textarea type="text" id="message" name="message" placeholder="Here is your invoice."></textarea>
                 </div>
             </div>
-        </div>
+        </div> -->
     </form>
     </div>  
 

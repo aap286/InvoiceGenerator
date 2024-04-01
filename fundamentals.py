@@ -37,11 +37,7 @@ def dataTypeCor(df, st, fin, dataType):
 def money(num):
     for i in range(len(num)):
         if num[i] != '-':
-             num[i] = "{:,.2f}".format(num[i])
-        # if num[i] == 0:
-        #     num[i] = "-"
-        # else: 
-        #     num[i] = "{:,.2f}".format(num[i])
+            num[i] = "{:,.2f}".format(num[i])
         
 # change date format dd/mm/yyyy
 def dateFormat(dates):

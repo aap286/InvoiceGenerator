@@ -1,0 +1,5 @@
+when using auto-to-py-exe
+
+only add the styles folder
+
+and when runnning the app make sure the style folder exists in the same working directory

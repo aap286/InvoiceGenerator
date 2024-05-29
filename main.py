@@ -2,13 +2,13 @@ from fundamentals import dataTypeCor, money, getInterest, dateFormat
 from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-import os, win32com.client, winshell, sys
+import os, win32com.client, winshell
 import pandas as pd
+import numpy as np
 import warnings
 import webview
 import pdfkit
 import pythoncom
-import threading
 
 
 
@@ -231,9 +231,6 @@ def create_app():
                     # store delayed payment for arears
                     # delayedItem = [0]*11
                     
-                    # store due payment grand total
-                    delayedTotal = [0]*11
-
                     # name of user
                     name = userOne['Name'] 
                     # apartment and building number
@@ -286,8 +283,9 @@ def create_app():
                     # for rows 10,12,12,13,14
                     for i in range(10, 15):
                         
-                        if config[i+3].lower() == 'y':
-                            item[i] = userOne[i-3] if isinstance(userOne[i-3], float) and userOne[i-3] > 0 else 0.00
+                        if config[i+3].lower() == 'y' and isinstance(userOne[i-3], np.int64):
+                            item[i] = userOne[i-3] if userOne[i-3]  and userOne[i-3] > 0 else 0.00
+                            
                         else:
                             item[i] = 0.0
                     
@@ -298,7 +296,6 @@ def create_app():
                         item[16] = round(item[15] * config[9] / 100 ,0)
                         item[17] = round(item[15] * config[10] / 100 ,0)
                         item[18] = sum(item[11:18])
-
 
                     # GRAND TOTAL A1 + A2 && FULL YEAR AMT
                     item[19] = item[20] = item[9] + item[18]

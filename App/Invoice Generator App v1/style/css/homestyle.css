@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Merriweather:ital,wght@0,700;1,700&&family=Play&family=Montserrat:wght@300&family=Roboto+Slab:wght@300&display=swap');
+
+*   {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    user-select: none; 
+}
+
+body   {
+    background-color: #fdf5e7;
+}
+
+.form {
+    /* background-color: #7aeef9; */
+    background-color: #fdf5e7;
+    padding-top: 30px;
+    height: 650px;
+    width: 800px;
+    border-radius:50px;
+    /* display: table-cell; */
+    /* position: relative; */
+}
+
+.secondRow {
+    display: flex;
+    flex-direction: col;
+    justify-content: space-around;
+}
+
+.entry  {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 400px;
+    height:40px;
+    font-size: 30px;
+    text-align: left;
+    left: 30px;
+    font-family: 'Merriweather', serif;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.box  {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 400px;
+    height:40px;
+    font-size: 30px;
+    text-align: center;
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+.entry h1{
+    font-size: 40px;
+    color: #1d3557;
+    text-align: center;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.link{
+    margin-top: 70px;
+    text-align: center;
+    color: #7f5539;
+    text-decoration: underline;
+}
+
+.link a:visited   {
+    color:#7f5539;
+}
+
+.link a:hover {
+    color:#1d3557;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+label   {
+    font-size: 30px;
+    padding-left: 15px;
+    color:#7f5539;
+    font-weight: 525;
+}
+
+.file   {
+    background: white;
+    font-size: 20px;
+    border:none;
+    outline:none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width:370px;
+    color: #d6ccc2;
+}
+
+::-webkit-file-upload-button {
+    border:none;
+    background: #1d3557;
+    border-radius: 5px;
+    height:40px;
+    width:120px;
+    color: #fff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 0.02em;
+    margin-right: 15px;
+    transition-duration: 1s;
+
+}
+
+::-webkit-file-upload-button:hover  {
+    background-color: #7f5539;
+    text-align: center;
+    width: 370px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+}
+
+
+
+.button {
+    border:none;
+    background: #1d3557;
+    border-radius: 5px;
+    height:40px;
+    width:370px;
+    color: #fff;
+    font-family: 'Montserrat'; 
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transition-duration: 0.5s;
+}
+
+.button:hover   {
+    background-color: #7f5539;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+}
+
+#invoiceDate, #period, #year, #resolutionText    {
+    border:2px solid #1d3557;
+    border-radius: 5px;
+    color: #d6ccc2;
+    height:40px;
+    width:370px;
+    font-family: Play;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    color:#1d3557;
+}
+
+::-webkit-datetime-edit { padding: 1em; }
+::-webkit-datetime-edit-text { color: #7f5539; padding: 0 0.3em; }
+::-webkit-datetime-edit-month-field { color: #1d3557; }
+::-webkit-datetime-edit-day-field { color: #1d3557; }
+::-webkit-datetime-edit-year-field { color: #1d3557; }
+::-webkit-inner-spin-button { display: none; }
+
+.parent {
+    height:680px;
+    display: table;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+.email  {
+    height: 650px;
+    width: 400px;
+    display: table-cell;
+    position: relative;
+}
+
+.section    {
+    position: relative;
+    top: 60px;
+}
+
+.msg-section    {
+    position: relative;
+    top: 53px;
+}
+
+.entry-sub, .entry-msg  {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 34px;
+    width: 400px;
+    height:40px;
+    font-size: 30px;
+    text-align: left;
+    left: 30px;
+    font-family: 'Merriweather', serif;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.box-msg, .box-sub  {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height:40px;
+    font-size: 30px;
+    text-align: center;
+    margin-top: -5px; 
+    color: #1d3557;
+}
+
+#subject, #message    {
+    border:2px solid #1d3557;
+    border-radius: 5px;
+    color: #d6ccc2;
+    height:40px;
+    width:370px;
+    font-family: Play;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    color: #1d3557;
+}
+
+#message    {
+    height: 128px;
+    padding: 10px;
+    padding-top: 5px;
+    text-align: left;
+}
+
+#message:focus, #subject:focus, #period:focus, #year:focus, #invoiceDate:focus {
+    color: #7f5539;
+}
+
+::placeholder   {
+    color:#d6ccc2;
+    font-style: italic;
+
+}
+
+

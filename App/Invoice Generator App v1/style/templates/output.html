@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/outputstyle.css') }}" >
+    <title>Output</title>
+</head>
+<body>
+    
+    <body>
+        <table>
+            <tr>
+                <th colspan="5">Oxford Village Condominium</th>
+            </tr>
+            <tr>
+                <th colspan="5">Wanwadi, Pune - 411 040</th>
+            </tr>
+            <tr>
+                <th colspan="5">Invoice for Maintenance Charges for FY {{year}}</th>
+            </tr>
+            <tr id="heading">
+                <td class="first" id="annex">Inv. No</td>
+                <td class="second">{{index}}</td>
+                <td class="four" id="annex">Date:</td>
+                <td class="five"  id="annex">{{invDate}}</td>
+            </tr>
+            <tr id="heading">
+                <td  class="first" id="annex">Name:</td>
+                <td class="second">{{name}}</td>
+                <td class="annex">Aptmt. / B no.</td>
+                <td class="annex">{{aptNo}}</td>
+            </tr>
+            <tr id="heading">
+                <td class="annex">Period:</td>
+                <td class="second">{{period}}</td>
+                <td class="annex">Status:</td>
+                <td class="annex">{{status}}</td>
+            </tr>
+            <tr id="heading">
+                <td class="annex">{{area}}</td>
+                <td class="second">Aptmt area, sq ft</td>
+                <td class="annex">Corpus Paid:</td>
+                <td class="annex">{{corpus}}</td>
+            </tr>
+
+            <tr class="subheading">
+                <td class="annex">A</td>
+                <td class="second">Item</td>
+                <td class="annex">Rate</td>
+                <td class="annex">Amount, Rs.</td>
+            </tr>
+
+            <tr class="subheading">
+                <td class="annex">A1</td>
+                <td class="second">{{itemSectionNames[1]}}</td>
+                <td class="annex"></td>
+                <td class="annex"></td>
+            </tr>
+
+            <!-- for loop for the A1 section -->
+            {% for j in range(1, 10) %}
+
+                <tr>
+                    <td class="annex">{{ j }}</td>
+                    <td class="second">{{ itemName[j] }}</td>
+                    <td class="annex">{{ itemRate[j] }}</td>
+                    <td class="annex">{{ item[j] }}</td>
+                </tr>
+
+            {% endfor %}
+
+             <tr class="subheading">
+                    <td class="annex">A2</td>
+                    <td class="second">{{itemSectionNames[2]}}</td>
+                    <td class="annex"></td>
+                    <td class="annex"></td>
+            </tr>
+
+            <!-- for loop for the A2 section -->
+            {% for j in range(10, 20) %}
+
+                <tr>
+                    <td class="annex">{{j}}</td>
+                    <td class="second">{{itemName[j]}}</td>
+                    <td class="annex">{{itemRate[j]}}</td>
+                    <td class="annex">{{item[j]}}</td>
+                </tr>
+
+            {% endfor %}
+
+            <tr class="subheading">
+                    <td class="annex">B</td>
+                    <td class="second">{{itemSectionNames[3]}}</td>
+                    <td class="annex"></td>
+                    <td class="annex"></td>
+            </tr>
+
+            <!-- for loop for the B section -->
+            {% for j in range(20, 23) %}
+
+                <tr>
+                    <td class="annex">{{j}}</td>
+                    <td class="second">{{itemName[j]}}</td>
+                    <td class="annex">{{itemRate[j]}}</td>
+                    <td class="annex">{{item[j]}}</td>
+                </tr>
+
+            {% endfor %}
+
+            <tr class="subheading">
+                    <td class="annex">C</td>
+                    <td class="second">{{itemSectionNames[4]}}</td>
+                    <td class="annex"></td>
+                    <td class="annex">Amount, Rs.</td>
+            </tr>
+
+            <!-- for loop section C -->
+            {% for j in range(23, 34) %}
+
+                <tr>
+                    <td class="annex">{{j}}</td>
+                    <td class="second">{{itemName[j+1]}}</td>
+                    <td class="annex"></td>
+                    <td class="annex">{{item[j+1]}}</td>
+                </tr>
+
+            {% endfor %}
+
+            
+        </table>
+    </body>
+        
+</body>
+</html>

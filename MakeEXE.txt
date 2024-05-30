@@ -1,6 +1,6 @@
 When converting py to exe
 
-
+run of cmd as admin
 
 using auto-to-py-exe
 

@@ -1,5 +1,16 @@
-when using auto-to-py-exe
+When converting py to exe
 
-only add the styles folder
 
-and when runnning the app make sure the style folder exists in the same working directory
+
+using auto-to-py-exe
+
+include style folder
+
+after compiling 
+
+add 3 folders and 1 file
+- invoices
+- input
+- style (again for the pdf converter)
+- fundamentals.py (pythin script for functions)
+

@@ -81,6 +81,9 @@ sender = config[18]
 
 # row 3 is it less or add
 recoveryInterestRate = 'Add' if config[12].upper() == 'ADD' else 'Less'
+
+# excel data main array
+excelData = [] 
   
 
 # flask web service        
@@ -209,6 +212,8 @@ def create_app():
             itemName[22] = "Net Payble on or before {}".format(invoiceDateDue.strftime('%d-%b-%Y'))
             itemRate[21] = itemRate[22] = "{}%".format(config[6])
 
+            # populate excel file col names
+            excelData.append(itemName)
            
             # ? Iterating through each user
             for j in range(len(apartments)):
@@ -334,6 +339,9 @@ def create_app():
                     item[3] = "({})".format(item[3]) if recoveryInterestRate == 'Less' else item[3]
                     item[6] = "-" if status.lower() != 'rented' else item[6]
 
+                    # populate user information as row
+                    excelData.append(item)
+
                     # !!!! REMOVE CONFIG, EMAIL SUBJECT & BODY
                     html = render_template('output.html',
                             year = year,period = period, 
@@ -361,6 +369,10 @@ def create_app():
                     pdfkit.from_string(html, '0_Invoices\\{}\\{}.pdf'.format(year,aptNoSave), options=options, 
                                        configuration=sysmConfig, css=['style\\css\\outputstyle.css'])
                     
+                # converts 2D array into datafram before excel
+            df = pd.DataFrame(excelData[1:], columns=excelData[0])
+            df.to_excel('0_Invoices\\{y}\\{y}.xlsx'.format(y=year))
+                    
             return render_template('progress.html')
                 
     
@@ -368,10 +380,10 @@ def create_app():
         return render_template('home.html')
 
     if __name__ == "__main__":
-        # app.run(debug=True)
-        webview.create_window('Invoice',app,
-                width=850, height=750)
-        webview.start()
+        app.run(debug=True)
+        # webview.create_window('Invoice',app,
+        #         width=850, height=750)
+        # webview.start()
 
 # runs service
 create_app()     

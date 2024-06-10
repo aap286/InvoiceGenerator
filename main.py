@@ -9,6 +9,9 @@ import warnings
 import webview
 import pdfkit
 import pythoncom
+from openpyxl import Workbook
+from openpyxl.styles import PatternFill, Alignment
+
 
 
 
@@ -84,6 +87,15 @@ recoveryInterestRate = 'Add' if config[12].upper() == 'ADD' else 'Less'
 
 # excel data main array
 excelData = [] 
+
+# formula to fil solid backgroun to cell
+def fillBg(ws,cell, color):
+    fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+    ws[cell].fill = fill
+
+# Set column width in pixels
+def set_column_width_characters(ws, column, width_characters):
+    ws.column_dimensions[column].width = width_characters
   
 
 # flask web service        
@@ -161,8 +173,7 @@ def create_app():
             itemName[2] = "Less: Interest credit on Corpus @ {}% p.a.".format(config[2])
             itemRate[2] = "{}%".format(config[2])
             
-            itemName[3] = """{}: Recovery of excess interest credit @ {}% on   
-                                    corpus (in FY {}) as per {}""".format(recoveryInterestRate, config[4], year, resolutionText)
+            itemName[3] = "{}: Recovery of excess interest credit @ {}% on corpus (in FY {}) as per {}".format(recoveryInterestRate, config[4], year, resolutionText)
             itemRate[3] = "{}%".format(config[4])
 
             itemName[4] = "Net Maintenance Payable"
@@ -217,6 +228,10 @@ def create_app():
            
             # ? Iterating through each user
             for j in range(len(apartments)):
+                    
+                    # create empty excel file for user
+                    wb = Workbook()
+                    ws = wb.active
                     
                     # pivoits around each user
                     userOne = apartments.loc[j] 
@@ -362,16 +377,116 @@ def create_app():
                             "encoding": "UTF-8",
                             "enable-local-file-access": ""
                     }
-                        
-                    
-                    # pdf file name 
+
+                    # TODO excel file contents
+                    ws.merge_cells('A1:D1')
+                    ws.merge_cells('A2:D2')
+                    ws.merge_cells('A3:D3')
+
+                    ws['A1'] = 'Oxford Village Condominium'
+                    ws['A2'] = 'Wanwadi, Pune - 411 040'
+                    ws['A3'] = 'Invoice for Maintenance Charges for FY {}'.format(year)
+
+                    ws['A4'] = 'Inv. No'
+                    ws['B4'] = index
+                    ws['C4'] = 'Date'
+                    ws['D4'] = invoiceDateStr
+
+                    ws['A5'] = 'Name:'
+                    ws['B5'] = name
+                    ws['C5'] = 'Aptmt. / B no.'
+                    ws['D5'] = aptNo
+
+                    ws['A6'] = 'Period:'
+                    ws['B6'] = period
+                    ws['C6'] = 'Status:'
+                    ws['D6'] = status
+
+                    ws['A7'] = area
+                    ws['B7'] = 'Aptmt area, sq ft'
+                    ws['C7'] = 'Corpus Paid:'
+                    ws['D7'] = corpus
+
+                    ws['A8'] = 'A'
+                    ws['B8'] = 'Item'
+                    ws['C8'] = 'Rate'
+                    ws['D8'] = 'Amount, Rs.'
+
+                    ws['A9'] = 'A1'
+                    ws['B9'] = itemSectionNames[1]
+
+                    for k in range(1,10):
+                        ws['A{}'.format(k+9)] = k
+                        ws['B{}'.format(k+9)] = itemName[k]
+                        ws['C{}'.format(k+9)] = itemRate[k]
+                        ws['D{}'.format(k+9)] = item[k]
+
+                    ws['A19'] = 'A2'
+                    ws['B19'] = itemSectionNames[2]
+
+                    for k in range(10,21):
+                        ws['A{}'.format(k+10)] = k
+                        ws['B{}'.format(k+10)] = itemName[k]
+                        ws['C{}'.format(k+10)] = itemRate[k]
+                        ws['D{}'.format(k+10)] = item[k]
+
+                    ws['A30'] = 'B'
+                    ws['B30'] = itemSectionNames[3]
+
+                    for k in range(20,23):
+                        ws['A{}'.format(k+11)] = k-1
+                        ws['B{}'.format(k+11)] = itemName[k]
+                        ws['C{}'.format(k+11)] = itemRate[k]
+                        ws['D{}'.format(k+11)] = item[k]
+
+
+                    ws['A34'] = 'C'
+                    ws['B34'] = itemSectionNames[4]
+
+                    for k in range(24,35):
+                        ws['A{}'.format(k+11)] = k
+                        ws['B{}'.format(k+11)] = itemName[k]
+                        ws['C{}'.format(k+11)] = itemRate[k]
+                        ws['D{}'.format(k+11)] = item[k]
+
+
+                    # handle shading of cell
+                    for k in range(4,9):
+                        fillBg(ws, 'A{}'.format(k), "e6e5e5")
+                        fillBg(ws, 'B{}'.format(k), "e6e5e5")
+                        fillBg(ws, 'C{}'.format(k), "e6e5e5")
+                        fillBg(ws, 'D{}'.format(k), "e6e5e5")
+
+
+                    for k in [9, 19, 30, 34]:
+                        fillBg(ws, 'A{}'.format(k), "d4d4d4")
+                        fillBg(ws, 'B{}'.format(k), "d4d4d4")
+                        fillBg(ws, 'C{}'.format(k), "d4d4d4")
+                        fillBg(ws, 'D{}'.format(k), "d4d4d4")
+
+
+                    # center align A, C AND D
+                    for col in ['A', 'C', 'D']:
+                        for cell in ws[col]:
+                            cell.alignment = Alignment(horizontal='center')
+
+                    # adjusting column width
+                    set_column_width_characters(ws, 'A', 8)
+                    set_column_width_characters(ws, 'B', 85)
+                    set_column_width_characters(ws, 'C', 18)
+                    set_column_width_characters(ws, 'D', 18)
+
+                    # ? File name 
                     aptNoSave = "{a} {b}".format(a=userOne['B.NO'], b=userOne['Flat No.'])
+
+                    # excel file name
+                    wb.save('0_Invoices\\{}\\{}.xlsx'.format(year,aptNoSave))
+
+                    # pdf file name 
                     pdfkit.from_string(html, '0_Invoices\\{}\\{}.pdf'.format(year,aptNoSave), options=options, 
                                        configuration=sysmConfig, css=['style\\css\\outputstyle.css'])
-                    
-                # converts 2D array into datafram before excel
-            df = pd.DataFrame(excelData[1:], columns=excelData[0])
-            df.to_excel('0_Invoices\\{y}\\{y}.xlsx'.format(y=year))
+
+                    print("Excel and pdf file generated: {}".format(aptNo))
                     
             return render_template('progress.html')
                 
